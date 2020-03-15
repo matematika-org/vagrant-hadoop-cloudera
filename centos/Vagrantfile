@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "centos/7"
+  config.hostmanager.enabled = true
+  config.hostmanager.include_offline = true
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+    vb.cpus = 2
+  end
+
+  config.vm.provision "shell", path: "bootstrap.sh"
+
+  # Cloudera Master Server
+  config.vm.define "master.cloudera" do |c|
+    c.vm.hostname = "master.cloudera"
+    c.vm.network "private_network", ip: "192.168.0.10"
+    c.vm.provider :virtualbox do |vb|
+          vb.customize ["modifyvm", :id, "--memory", "4096"]
+    end
+  end
+
+  NodeCount = 3
+
+  # Cloudera Worker Nodes
+  (1..NodeCount).each do |i|
+    config.vm.define "node#{i}.cloudera" do |c|
+      c.vm.hostname = "node#{i}.cloudera"
+      c.vm.network "private_network", ip: "192.168.0.1#{i}"
+    end
+  end
+  
+end
