@@ -30,7 +30,6 @@ echo "[TASK 6] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 systemctl reload sshd
 
-# Set Root password
 echo "[TASK 7] Set root password"
 echo "root" | passwd --stdin root >/dev/null 2>&1
 
@@ -39,8 +38,12 @@ useradd cloudera -m  >/dev/null 2>&1
 echo "cloudera:cloudera" | chpasswd  >/dev/null 2>&1
 usermod -aG wheel cloudera  >/dev/null 2>&1
 
-echo "[TASK 9] Reboot"
-reboot
+# echo "[TASK 9] Some parameters"
+# echo never > /sys/kernel/mm/transparent_hugepage/defrag
+# echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+# echo "[TASK 11] Reboot"
+# reboot
 
 
 # !!! NOT NEEDED. HOSTMANAGER WILL ADD THIS AUTOMATICALLY

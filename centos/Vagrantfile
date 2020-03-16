@@ -16,12 +16,23 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "bootstrap.sh"
 
+  config.vm.provision "file", 
+    source: "./cloudera-transparent_hugepage.sh", 
+    destination: "/etc/profile.d/"
+
+  # config.vm.provision "shell",
+  #   inline: "mv /tmp/cloudera-transparent_hugepage.sh /root/"
+
+  config.vm.provision "bootstrap", type:"ansible" do |ansible|
+    ansible.playbook = "bootstrap.yml"
+  end
+
   # Cloudera Master Server
   config.vm.define "master.cloudera" do |c|
     c.vm.hostname = "master.cloudera"
     c.vm.network "private_network", ip: "192.168.0.10"
     c.vm.provider :virtualbox do |vb|
-          vb.customize ["modifyvm", :id, "--memory", "4096"]
+          vb.customize ["modifyvm", :id, "--memory", "8192"]
     end
   end
 

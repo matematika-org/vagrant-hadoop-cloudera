@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Configure sysctl
+    sysctl:
+      name: vm.swappiness 
+      value: '5'      
+      state: present
+
+  # - name: copy the file
+  #   copy:
+  #     src: /tmp/cloudera-transparent_hugepage.sh
+  #     dest: /etc/profile.d/cloudera-transparent_hugepage.sh
+
+  - name: Unconditionally reboot the machine with all defaults
+    reboot:
