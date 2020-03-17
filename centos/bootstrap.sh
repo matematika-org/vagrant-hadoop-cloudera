@@ -38,9 +38,17 @@ useradd cloudera -m  >/dev/null 2>&1
 echo "cloudera:cloudera" | chpasswd  >/dev/null 2>&1
 usermod -aG wheel cloudera  >/dev/null 2>&1
 
-# echo "[TASK 9] Some parameters"
-# echo never > /sys/kernel/mm/transparent_hugepage/defrag
-# echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo "[TASK 9] Some parameters"
+
+cat > /etc/profile.d/cloudera-transparent_hugepage.sh << EOF
+#!/bin/bash
+
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+EOF
+
+
 
 # echo "[TASK 11] Reboot"
 # reboot

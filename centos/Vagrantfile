@@ -1,6 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+VAGRANTFILE_API_VERSION = "2"
+
 ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 
 Vagrant.configure(2) do |config|
@@ -16,9 +18,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "bootstrap.sh"
 
-  config.vm.provision "file", 
-    source: "./cloudera-transparent_hugepage.sh", 
-    destination: "/etc/profile.d/"
+  #config.vm.provision "file", 
+  #  source: "./cloudera-transparent_hugepage.sh", 
+  #  destination: "/etc/profile.d/"
 
   # config.vm.provision "shell",
   #   inline: "mv /tmp/cloudera-transparent_hugepage.sh /root/"
