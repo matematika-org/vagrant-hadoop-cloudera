@@ -48,7 +48,7 @@ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 
 EOF
 
-
+chmod +x /etc/profile.d/cloudera-transparent_hugepage.sh
 
 # echo "[TASK 11] Reboot"
 # reboot
